@@ -1,19 +1,21 @@
-#include<stdio.h>
-#include<math.h>
+#include <stdio.h>
+#include <math.h>
+#include <locale.h>
 
 int main() {
 
     int k = 0, s = 0, b = 0;
+    setlocale(LC_ALL, "rus");
 
-    printf("vvedite kolvo\n");
+    printf("¬ведите количество \n");
     scanf_s("%d", &k);
-    printf("vvodite chisla cherez enter\n");
+    printf("¬водите числа через enter \n");
 
     for (int i = 0; i < k; i++) {
         scanf_s("%d", &b);
         s += b * b;
     }
-    printf("summa ravna %d", s);
+    printf("—умма равна %d", s);
 
     return 0;
     system("pause");
