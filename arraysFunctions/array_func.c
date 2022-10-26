@@ -22,12 +22,21 @@ int minim(int* mass, int size) {
 	}
 	return minimal;
 }
+int maxim(int* mass, int size) {
+	int max = -100000;
+	for (int i = 0; i < size; i++) {
+		if (mass[i] > max) {
+			max = mass[i];
+		}
+	}
+	return max;
+}
 int main() {
 	srand(time(0));
 	setlocale(LC_ALL, "rus");
 
 	int* mass;
-	int size, mini;
+	int size, mini, max;
 
 	printf("¬ведите длину массива: ");
 	scanf_s("%d", &size);
@@ -36,6 +45,9 @@ int main() {
 	printMass(mass, size);
 	mini = minim(mass, size);
 	printf("\n%d\n", mini);
+
+	max = maxim(mass, size);
+	printf("\n%d\n", max);
 
 	return 0;
 	system("pause");
