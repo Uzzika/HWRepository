@@ -7,8 +7,10 @@
 #include <conio.h>
 #include <time.h>
 #include "sys/stat.h"
+#include <string.h>
 
 
+#define RANGE 255
 #define KEY_EXIT 27
 #define KEY_ENTER 13
 #define ARROW_KEY 224
@@ -113,7 +115,7 @@ struct sort_stat bubble_sort(int* array, int size) {
     if (size != -1) {
         for (int i = 0; i < size; i++) {
             for (int j = i; j < size; j++) {
-                comp++;
+                comp++; 
                 if (array[i] > array[j]) {
                     temp = array[i];
                     array[i] = array[j];
@@ -192,7 +194,7 @@ void randarray(int* array, int size, int lang) {
         array[i] = min + rand() % (abs(min - max) + 1);
     }
 }
-struct sort_stat viborsort(int* array, int size) {
+struct sort_stat selectionsort(int* array, int size) {
     int tempmin, tminindex, temp, swaps = 0, comp = 0;
     for (int i = 0; i < size; i++) {
         tempmin = array[i];
@@ -260,12 +262,10 @@ struct sort_stat mergesort(int* a, int len) {
     struct sort_stat stat = { msort_swaps, comps };
     return stat;
 }
+
 int merge_two(int* a, int s1, int e1, int s2, int e2, int* m1, int* m2, int* msort_swaps, int* comps) {
-    int len1 = e1 - s1 + 1;
-    int len2 = e2 - s2 + 1;
-    int p1 = 0;
-    int p2 = 0;
-    int p = s1;
+    int len1 = e1 - s1 + 1, len2 = e2 - s2 + 1;
+    int p1 = 0, p2 = 0, p = s1;
     memcpy(m1, a + s1, sizeof(int) * len1);
     memcpy(m2, a + s2, sizeof(int) * len2);
     while (p1 < len1 && p2 < len2) {
@@ -304,7 +304,7 @@ void sorts_comparing_table(int* array, int size, struct sort_stat(*sorts[4])(int
         {"Сортировка","Время работы","Замедление","Кол. перестановок","Увелич. числа перестановок","Кол. сравнений", "Увелич. числа сравнений"},
         {"Sort","Time","Time Ratio","Swaps","Swaps Ratio","Comparisons","Comparisons ratio"},
     };
-    char* ssorts[4] = { "Bubble sort" , "Vibor sort", "Quick sort", "Merge sort" };
+    char* ssorts[4] = { "Bubble sort" , "Select sort", "Count sort", "Merge sort" };
     int sort_comp_debug = SORTMENU_SIZE - 1;
     int* times = (int*)malloc(sizeof(int) * sort_comp_debug);
     int* timeratio = (int*)malloc(sizeof(int) * sort_comp_debug);
@@ -432,15 +432,15 @@ void sorts_comparing_table(int* array, int size, struct sort_stat(*sorts[4])(int
     }
 }
 void draw_efficiency_table(struct sort_stat(*sorts[4])(int*, int), int language) {
-    int sort_vibor;
+    int sort_sel;
     int tests;
     char* titles[LANG_CNT][3] = {
         {"Количество элементов","Время","Замедление"},
         {"Number of elements","Time","Compare"},
     };
-    printf("Bubble sort - 1, Vibor sort - 2, Quick sort - 3, Merge sort - 4\n");
+    printf("Bubble sort - 1, Selection sort - 2, Count sort - 3, Merge sort - 4\n");
     printf(language == 0 ? "Введите сортировку: " : "Enter sort: ");
-    scanf_s("%d", &sort_vibor);
+    scanf_s("%d", &sort_sel);
     printf(language == 0 ? "Введите количество тестов: " : "Enter number of tests: ");
     scanf_s("%d", &tests);
     int* numberofelement = (int*)malloc(sizeof(int) * tests);
@@ -458,7 +458,7 @@ void draw_efficiency_table(struct sort_stat(*sorts[4])(int*, int), int language)
         for (int k = 0; k < numberofelement[i]; k++) {
             array[k] = -100 + rand() % (abs(-100 - 100) + 1);
         }
-        sorts[sort_vibor - 1](array, numberofelement[i]);
+        sorts[sort_sel - 1](array, numberofelement[i]);
         time = clock() - time;
         times[i] = time;
         free(array);
@@ -549,7 +549,7 @@ int main()
     };
     char* sorts[LANG_CNT][SORTMENU_SIZE] = {
         { "Пузырьковая сортировка", "Сортировка выбором","Сортировка подсчетом","Сортировка слиянием","Назад"},
-        {"Bubble sort","Choose sort","Counting sort", "Merge sort","Back"}
+        {"Bubble sort","Selection sort","Counting sort", "Merge sort","Back"}
     };
     char* settings[LANG_CNT][SETSMENU_SIZE] = {
         {"Language/язык", "Задать массив", "Показать текущий массив","Изменить путь до рабочей директории", "Назад"},
@@ -583,7 +583,7 @@ int main()
     incase_flag = 1;
     sort_flag = 0;
 
-    struct sort_stat(*p_sorts[4])(int*, int) = { bubble_sort , viborsort , calcsort , mergesort };
+    struct sort_stat(*p_sorts[4])(int*, int) = { bubble_sort , selectionsort , calcsort , mergesort };
 
     while (!exit_flag) {
         system("cls");
@@ -688,7 +688,7 @@ int main()
                             break;
                         case 1: // vibor sort
                             system("cls");
-                            viborsort(array, arrsize);
+                            selectionsort(array, arrsize);
                             if (ifsorted(array, arrsize) == 1) {
                                 printarray(array, arrsize, language);
                             }
@@ -701,12 +701,12 @@ int main()
                         case 2: // csort
                             system("cls");
                             calcsort(array, arrsize);
-                            /*if (ifsorted(array, arrsize) == 1) {
+                            if (ifsorted(array, arrsize) == 1) {
                                 printarray(array, arrsize, language);
                             }
                             else {
                                 printf(language == 0 ? "Массив неверно отсортирован\n" : "The array is not sorted correctly\n");
-                            }*/
+                            }
                             printarray(array, arrsize, language);
                             sort_flag = arrsize == -1 ? 0 : 1;
                             system("pause");
@@ -990,7 +990,7 @@ int main()
     }
 
     system("cls");
-    printf(language == 0 ? "До свидания!\n" : "Goodbay!\n");
+    printf(language == 0 ? "До свидания! Еще увидимся)\n" : "Goodbay! See you again)\n");
     free(array);
     system("pause");
     return 0;
