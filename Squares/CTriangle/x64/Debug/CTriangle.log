@@ -1,0 +1,6 @@
+﻿  CTriangle.cpp
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\CTriangle\CTriangle.cpp(5,45): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\CTriangle\CTriangle.cpp(7,45): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\CTriangle\CTriangle.cpp(9,45): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\CTriangle\CTriangle.cpp(25,11): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+  CTriangle.vcxproj -> C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\x64\Debug\CTriangle.lib

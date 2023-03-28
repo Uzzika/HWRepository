@@ -1,0 +1,4 @@
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\MainForm\x64\Debug\MainForm.vcxproj.AssemblyReference.cache
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\MainForm\x64\Debug\MainForm.vcxproj.SuggestedBindingRedirects.cache
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\MainForm\x64\Debug\MainForm.Form1.resources
+C:\Users\itmm-2213-a\source Dud\Programming-2022-2023\Squares\MainForm\x64\Debug\MainForm.vcxproj.GenerateResource.cache
