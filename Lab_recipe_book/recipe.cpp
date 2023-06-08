@@ -1,7 +1,9 @@
 #include <string>
-#include <vector> //РјРѕРґРµР»СЊ РґРёРЅР°РјРёС‡РµСЃРєРѕРіРѕ РјР°СЃСЃРёРІР°
+#include <vector> //модель динамического массива
 #include <iostream>
 #include <Windows.h>
+#include <conio.h>
+
 
 class FIO {
 private:
@@ -52,16 +54,17 @@ public:
 };
 
 
+
 class Ingridient {
 public:
     Ingridient(std::string name, size_t count, std::string measureUnit) :
         _name(name), _count(count), _measureUnit(measureUnit) {};
 
-    void set_count(size_t count) { //(С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРµ РїРѕР»РѕР¶РёС‚РµР»СЊРЅРѕРµ) РєРѕР»-РІРѕ РєР°Р¶РґРѕРіРѕ РёРЅРіСЂРёРґРёРµРЅС‚Р°
+    void set_count(size_t count) {
         _count = count;
     }
 
-    void add_analog(const Ingridient analog) { //Р·Р°РєРёРґС‹РІР°РµС‚ РІ РєРѕРЅРµС† РјР°СЃСЃРёРІР° + СѓРІРµР»РёС‡РёРІР°РµС‚ РµРіРѕ РґР»РёРЅСѓ РЅР° 1
+    void add_analog(const Ingridient analog) {
         _analogs.push_back(analog);
     }
 
@@ -74,7 +77,15 @@ public:
     };
 
     friend std::ostream& operator<<(std::ostream& out, const Ingridient& ing) {
-        out << ing._name << " (" << ing._count << " " << ing._measureUnit << ")";
+        out << "-" << ing._name << " (" << ing._count << " " << ing._measureUnit << ")";
+        out << "\n";
+
+        if (ing._analogs.size() > 0) {
+            out << "Аналоги: \n";
+        }
+        for (size_t i = 0; i < ing._analogs.size(); i++) { 
+            out << ing._analogs[i];
+        }
         return out;
     }
 
@@ -82,7 +93,7 @@ private:
     std::string _name;
     std::string _measureUnit;
     size_t _count;
-    std::vector<Ingridient> _analogs; //Р·Р°РґР°СЋ РІРµРєС‚РѕСЂ РёРЅРіСЂРёРґРёРµРЅС‚РѕРІ
+    std::vector<Ingridient> _analogs; //задаю вектор ингридиентов
 };
 
 
@@ -113,11 +124,12 @@ public:
     };
 
     friend std::ostream& operator<<(std::ostream& out, const Recipe& recipe) {
-        out << recipe._name << "\n";
+        out << ">>>>>" << recipe._name << "<<<<<<" << "\n";
 
-        for (size_t i = 0; i < recipe._ingridients.size(); i++) { //size - РґР»РёРЅР° РјР°СЃСЃРёРІР°
+        for (size_t i = 0; i < recipe._ingridients.size(); i++) {
             out << "   " << recipe._ingridients[i];
         }
+        out << "\n" << "  " << recipe._description << "\n";
         return out;
     }
 
@@ -139,7 +151,7 @@ public:
 
     void removeRecipe(const size_t index) {
         if (index < _recipes.size()) {
-            _recipes.erase(_recipes.begin() + index); //СѓРґР°Р»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р° РІРµРєС‚РѕСЂР°
+            _recipes.erase(_recipes.begin() + index); 
         }
     }
 
@@ -192,6 +204,7 @@ public:
             out << recipes[i] << "\n";
         }
 
+        out << "Приятного аппетита!\n";
         out << "========================\n";
 
         return out;
@@ -206,23 +219,57 @@ private:
 };
 
 int main() {
-    SetConsoleCP(1251);//СЂСѓСЃСЃРєРёР№
+    SetConsoleCP(1251);//русский
     SetConsoleOutputCP(1251);
-    FIO author("Р”СѓРґС‡РµРЅРєРѕ", "РћР»РµСЃСЏ", "Р’РёРєС‚РѕСЂРѕРІРЅР°");
+    FIO author("Дудченко", "Олеся", "Викторовна");
 
-    Recipe first_recipe("Р–Р°СЂРµРЅР°СЏ РєР°СЂС‚РѕС€РєР°", "РџРѕР¶Р°СЂРёС‚СЊ");
-    Ingridient potato("РљР°СЂС‚РѕС€РєР°", 3, "С€С‚.");
-    first_recipe.add_ingridient(potato);
+    Recipe first_recipe("Греческий салат", "Перемешать все ингридиенты и кушац с удовольствием");
+    Ingridient cucumber("Огурцы", 2, "шт.");
 
-    Recipe second_recipe("РЎР°Р»Р°С‚ РёР· РѕРіСѓСЂС†РѕРІ", "РџРµСЂРµРјРµС€Р°С‚СЊ");
-    Ingridient cucumber("РћРіСѓСЂС†С‹", 2, "С€С‚.");
-    second_recipe.add_ingridient(cucumber);
+    Ingridient olives("Оливки", 15, "шт.");
+    Ingridient analogoliv("Маслины", 15, "шт.");
+
+    Ingridient salad("Салат Айсберг", 2, "листка");
+    Ingridient analogsalad1("Листья салата", 10, "листьев");
+    Ingridient analogsalad2("Пекинская капуста", 3, "листка");
+
+    Ingridient cheese("Сыр фета", 15, "кубиков");
+    Ingridient analogche("Сыр брынза", 23, "кубика");
+
+    Ingridient sweet_pepper("Болгарский перец", 1, "шт.");
+    Ingridient salt("Соль, перец и масло", 3, "по вкусу");
+
+    olives.add_analog(analogoliv);
+    salad.add_analog(analogsalad1);
+    salad.add_analog(analogsalad2);
+    cheese.add_analog(analogche);
+    first_recipe.add_ingridient(cucumber);
+    first_recipe.add_ingridient(olives);
+    first_recipe.add_ingridient(salad);
+    first_recipe.add_ingridient(cheese);
+    first_recipe.add_ingridient(sweet_pepper);
+    first_recipe.add_ingridient(salt);
 
 
-    Book book("Р РµС†РµРїС‚С‹ РѕС‚ РїРѕР¶РёР»РѕР№ РєСѓРєР°СЂР°С‡Рё", author, "РћРћРћ Р–РњРђ", "10.04.2023");
+    Recipe second_recipe("Макароны с сосиской", "Перемешать макароны с маслом и красиво положить сосиски");
+    Ingridient pasta("Макароны", 1, "пачка");
+
+    Ingridient sausage("Сосиска", 2, "шт.");
+    Ingridient frankfurter("Сарделька", 2, "шт.");
+
+    Ingridient oil("Масло", 15, "мл");
+
+    sausage.add_analog(frankfurter);
+    second_recipe.add_ingridient(pasta);
+    second_recipe.add_ingridient(sausage);
+    second_recipe.add_ingridient(oil);
+
+    Book book("Рецепты от пожилой кукарачи", author, "ООО ЖМА", "10.04.2023");
     book.addRecipe(first_recipe);
     book.addRecipe(second_recipe);
+    /*book.removeRecipe(0);*/
 
     std::cout << book;
+    system("pause");
     return 0;
 }
